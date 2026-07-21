@@ -1,0 +1,47 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Admin {
+  id           String   @id @default(uuid())
+  email        String   @unique
+  passwordHash String
+  createdAt    DateTime @default(now())
+}
+
+enum DietType {
+  VEG
+  NON_VEG
+  EGG
+}
+
+model MenuItem {
+  id          String   @id @default(uuid())
+  name        String
+  category    String
+  description String?
+  dietType    DietType @default(VEG)
+  imageUrl    String?
+  isPopular   Boolean  @default(false)
+  sortOrder   Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model SiteSettings {
+  id                 Int      @id @default(1)
+  tagline            String   @default("Authentic West African flavors, fresh daily.")
+  pricePerPoundLabel String   @default("[PRICE]/lb")
+  halalCertText      String   @default("Halal certification details pending — certifying body to be confirmed.")
+  heroImageUrl       String?
+  showReviewsWidget  Boolean  @default(false)
+  updatedAt          DateTime @updatedAt
+}
