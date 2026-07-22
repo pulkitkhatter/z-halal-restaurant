@@ -3,6 +3,9 @@ import { Route, BrowserRouter, Routes } from "react-router-dom";
 import { Layout } from "./components/Layout";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import { AuthProvider } from "./context/AuthContext";
+import { CartProvider } from "./context/CartContext";
+import { Cart } from "./pages/Cart";
+import { Checkout } from "./pages/Checkout";
 import { Contact } from "./pages/Contact";
 import { Home } from "./pages/Home";
 import { Menu } from "./pages/Menu";
@@ -13,43 +16,61 @@ function App() {
   return (
     <HelmetProvider>
       <AuthProvider>
-        <BrowserRouter>
-          <Routes>
-            <Route
-              path="/"
-              element={
-                <Layout>
-                  <Home />
-                </Layout>
-              }
-            />
-            <Route
-              path="/menu"
-              element={
-                <Layout>
-                  <Menu />
-                </Layout>
-              }
-            />
-            <Route
-              path="/contact"
-              element={
-                <Layout>
-                  <Contact />
-                </Layout>
-              }
-            />
-            <Route path="/admin/login" element={<AdminLogin />} />
-            <Route
-              path="/admin"
-              element={
-                <ProtectedRoute>
-                  <AdminDashboard />
-                </ProtectedRoute>
-              }
-            />
-          </Routes>
-        </BrowserRouter>
+        <CartProvider>
+          <BrowserRouter>
+            <Routes>
+              <Route
+                path="/"
+                element={
+                  <Layout>
+                    <Home />
+                  </Layout>
+                }
+              />
+              <Route
+                path="/menu"
+                element={
+                  <Layout>
+                    <Menu />
+                  </Layout>
+                }
+              />
+              <Route
+                path="/cart"
+                element={
+                  <Layout>
+                    <Cart />
+                  </Layout>
+                }
+              />
+              <Route
+                path="/checkout"
+                element={
+                  <Layout>
+                    <Checkout />
+                  </Layout>
+                }
+              />
+              <Route
+                path="/contact"
+                element={
+                  <Layout>
+                    <Contact />
+                  </Layout>
+                }
+              />
+              <Route path="/admin/login" element={<AdminLogin />} />
+              <Route
+                path="/admin"
+                element={
+                  <ProtectedRoute>
+                    <AdminDashboard />
+                  </ProtectedRoute>
+                }
+              />
+            </Routes>
+          </BrowserRouter>
+        </CartProvider>
       </AuthProvider>
     </HelmetProvider>
   );

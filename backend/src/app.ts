@@ -9,6 +9,7 @@ import morgan from "morgan";
 import { errorHandler } from "./middleware/errorHandler.js";
 import authRouter from "./routes/auth.js";
 import menuRouter from "./routes/menu.js";
+import ordersRouter from "./routes/orders.js";
 import settingsRouter from "./routes/settings.js";
 import uploadRouter from "./routes/upload.js";
 
@@ -41,6 +42,7 @@ export function createApp() {
 
   app.use("/api/auth", authRouter);
   app.use("/api/menu", menuRouter);
+  app.use("/api/orders", ordersRouter);
   app.use("/api/settings", settingsRouter);
   app.use("/api/upload", uploadRouter);
 

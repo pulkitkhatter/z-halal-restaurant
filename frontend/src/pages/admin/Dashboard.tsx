@@ -3,6 +3,9 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { api, type DietType, type MenuItem, type SiteSettings } from "../../lib/api";
 import { MenuItemEditor } from "./MenuItemEditor";
+import { OrdersPanel } from "./OrdersPanel";
+
+type Tab = "menu" | "settings" | "orders";
 
 const emptyItem = {
   name: "",
@@ -22,6 +25,7 @@ export function AdminDashboard() {
   const [newItem, setNewItem] = useState(emptyItem);
   const [uploading, setUploading] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
+  const [tab, setTab] = useState<Tab>("menu");
 
   function loadData() {
     api.getMenu().then(setItems);
@@ -75,57 +79,90 @@ export function AdminDashboard() {
         </div>
       </div>
 
-      <section>
-        <h2>Menu Items</h2>
-        <p className="admin-hint">
-          Edit name/category/description inline (saves when you click away),
-          switch the diet type, upload a photo, or mark a dish as a favorite.
-        </p>
+      <div className="admin-tabs">
+        <button
+          type="button"
+          className={`admin-tab ${tab === "menu" ? "admin-tab-active" : ""}`}
+          onClick={() => setTab("menu")}
+        >
+          Menu Items
+        </button>
+        <button
+          type="button"
+          className={`admin-tab ${tab === "orders" ? "admin-tab-active" : ""}`}
+          onClick={() => setTab("orders")}
+        >
+          Orders
+        </button>
+        <button
+          type="button"
+          className={`admin-tab ${tab === "settings" ? "admin-tab-active" : ""}`}
+          onClick={() => setTab("settings")}
+        >
+          Site Settings
+        </button>
+      </div>
 
-        <div className="menu-item-editor-list">
-          {items.map((item) => (
-            <MenuItemEditor
-              key={item.id}
-              item={item}
-              onChanged={loadData}
-              onDeleted={loadData}
+      {tab === "orders" && (
+        <section>
+          <h2>Orders</h2>
+          <OrdersPanel />
+        </section>
+      )}
+
+      {tab === "menu" && (
+        <section>
+          <h2>Menu Items</h2>
+          <p className="admin-hint">
+            Edit name/category/description inline (saves when you click away),
+            switch the diet type, upload a photo, or mark a dish as a favorite.
+          </p>
+
+          <div className="menu-item-editor-list">
+            {items.map((item) => (
+              <MenuItemEditor
+                key={item.id}
+                item={item}
+                onChanged={loadData}
+                onDeleted={loadData}
+              />
+            ))}
+          </div>
+
+          <form onSubmit={handleAddItem} className="admin-inline-form">
+            <input
+              placeholder="Dish name"
+              value={newItem.name}
+              onChange={(e) => setNewItem({ ...newItem, name: e.target.value })}
             />
-          ))}
-        </div>
+            <input
+              placeholder="Category"
+              value={newItem.category}
+              onChange={(e) => setNewItem({ ...newItem, category: e.target.value })}
+            />
+            <input
+              placeholder="Description (optional)"
+              value={newItem.description}
+              onChange={(e) => setNewItem({ ...newItem, description: e.target.value })}
+            />
+            <select
+              value={newItem.dietType}
+              onChange={(e) =>
+                setNewItem({ ...newItem, dietType: e.target.value as DietType })
+              }
+            >
+              <option value="VEG">Veg</option>
+              <option value="NON_VEG">Non-Veg</option>
+              <option value="EGG">Contains Egg</option>
+            </select>
+            <button type="submit" className="btn btn-small">
+              Add Dish
+            </button>
+          </form>
+        </section>
+      )}
 
-        <form onSubmit={handleAddItem} className="admin-inline-form">
-          <input
-            placeholder="Dish name"
-            value={newItem.name}
-            onChange={(e) => setNewItem({ ...newItem, name: e.target.value })}
-          />
-          <input
-            placeholder="Category"
-            value={newItem.category}
-            onChange={(e) => setNewItem({ ...newItem, category: e.target.value })}
-          />
-          <input
-            placeholder="Description (optional)"
-            value={newItem.description}
-            onChange={(e) => setNewItem({ ...newItem, description: e.target.value })}
-          />
-          <select
-            value={newItem.dietType}
-            onChange={(e) =>
-              setNewItem({ ...newItem, dietType: e.target.value as DietType })
-            }
-          >
-            <option value="VEG">Veg</option>
-            <option value="NON_VEG">Non-Veg</option>
-            <option value="EGG">Contains Egg</option>
-          </select>
-          <button type="submit" className="btn btn-small">
-            Add Dish
-          </button>
-        </form>
-      </section>
-
-      {settings && (
+      {tab === "settings" && settings && (
         <section>
           <h2>Site Settings</h2>
           <form onSubmit={handleSaveSettings} className="admin-settings-form">

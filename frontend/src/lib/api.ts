@@ -32,6 +32,43 @@ export interface SiteSettings {
   showReviewsWidget: boolean;
 }
 
+export type PlateSize = "SMALL" | "LARGE";
+export type FulfillmentType = "DELIVERY" | "PICKUP";
+
+export interface OrderItemInput {
+  dishName: string;
+  size: PlateSize;
+  quantity: number;
+}
+
+export interface NewOrderInput {
+  customerName: string;
+  phone: string;
+  fulfillmentType: FulfillmentType;
+  address?: string;
+  notes?: string;
+  items: OrderItemInput[];
+}
+
+export interface OrderItemRecord extends OrderItemInput {
+  id: string;
+  orderId: string;
+  unitPrice: string;
+}
+
+export interface Order {
+  id: string;
+  customerName: string;
+  phone: string;
+  fulfillmentType: FulfillmentType;
+  address: string | null;
+  notes: string | null;
+  completed: boolean;
+  items: OrderItemRecord[];
+  createdAt: string;
+  updatedAt: string;
+}
+
 async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
   const res = await fetch(`${API_URL}${path}`, {
     credentials: "include",
@@ -60,6 +97,13 @@ export const api = {
   getSettings: () => request<SiteSettings>("/api/settings"),
   updateSettings: (data: Partial<SiteSettings>) =>
     request<SiteSettings>("/api/settings", { method: "PUT", body: JSON.stringify(data) }),
+
+  createOrder: (data: NewOrderInput) =>
+    request<Order>("/api/orders", { method: "POST", body: JSON.stringify(data) }),
+  getOrders: () => request<Order[]>("/api/orders"),
+  updateOrder: (id: string, data: { completed: boolean }) =>
+    request<Order>(`/api/orders/${id}`, { method: "PATCH", body: JSON.stringify(data) }),
+  deleteOrder: (id: string) => request<void>(`/api/orders/${id}`, { method: "DELETE" }),
 
   login: (email: string, password: string) =>
     request<{ email: string }>("/api/auth/login", {

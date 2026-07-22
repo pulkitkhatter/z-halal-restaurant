@@ -36,6 +36,39 @@ model MenuItem {
   updatedAt   DateTime @updatedAt
 }
 
+enum PlateSize {
+  SMALL
+  LARGE
+}
+
+enum FulfillmentType {
+  DELIVERY
+  PICKUP
+}
+
+model Order {
+  id              String          @id @default(uuid())
+  customerName    String
+  phone           String
+  fulfillmentType FulfillmentType
+  address         String?
+  notes           String?
+  completed       Boolean         @default(false)
+  items           OrderItem[]
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+}
+
+model OrderItem {
+  id        String    @id @default(uuid())
+  orderId   String
+  order     Order     @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  dishName  String
+  size      PlateSize
+  quantity  Int
+  unitPrice String
+}
+
 model SiteSettings {
   id                 Int      @id @default(1)
   tagline            String   @default("Authentic West African flavors, fresh daily.")

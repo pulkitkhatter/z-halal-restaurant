@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
-import { DietBadge } from "../components/DietBadge";
+import { Link } from "react-router-dom";
+import { DishCard } from "../components/DishCard";
 import { WhatsAppButton } from "../components/WhatsAppButton";
+import { useCart } from "../context/CartContext";
 import { api, type MenuItem, type SiteSettings } from "../lib/api";
 import { CATEGORY_IMAGES, FALLBACK_CATEGORY_IMAGE } from "../lib/content";
 import { Seo } from "../seo/Seo";
@@ -23,6 +25,7 @@ export function Menu() {
   const [items, setItems] = useState<MenuItem[]>([]);
   const [settings, setSettings] = useState<SiteSettings | null>(null);
   const [loading, setLoading] = useState(true);
+  const { totalItems } = useCart();
 
   useEffect(() => {
     Promise.all([api.getMenu(), api.getSettings()])
@@ -75,27 +78,25 @@ export function Menu() {
           <h2>{category}</h2>
           <div className="dish-grid">
             {dishes.map((dish) => (
-              <article className="dish-card" key={dish.id}>
-                <div className="dish-card-image">
-                  <img src={dishImage(dish)} alt={dish.name} loading="lazy" />
-                  {dish.isPopular && (
-                    <span className="badge dish-card-ribbon">Most Popular</span>
-                  )}
-                </div>
-                <div className="dish-card-body">
-                  <div className="dish-card-header">
-                    <h3>{dish.name}</h3>
-                    <DietBadge dietType={dish.dietType} />
-                  </div>
-                  {dish.description && (
-                    <p className="dish-description">{dish.description}</p>
-                  )}
-                </div>
-              </article>
+              <DishCard
+                key={dish.id}
+                dish={dish}
+                image={dishImage(dish)}
+                smallPlatePrice={smallPlatePrice}
+                largePlatePrice={largePlatePrice}
+              />
             ))}
           </div>
         </section>
       ))}
+
+      {totalItems > 0 && (
+        <div className="menu-cart-cta">
+          <Link to="/cart" className="btn">
+            View Cart ({totalItems})
+          </Link>
+        </div>
+      )}
 
       <p className="halal-note">{halalCertText}</p>
 
