@@ -3,7 +3,7 @@ import compression from "compression";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import express from "express";
-import * as helmetModule from "helmet";
+import helmet from "helmet";
 import morgan from "morgan";
 
 import { errorHandler } from "./middleware/errorHandler.js";
@@ -12,13 +12,10 @@ import menuRouter from "./routes/menu.js";
 import settingsRouter from "./routes/settings.js";
 import uploadRouter from "./routes/upload.js";
 
-const helmet = helmetModule.default;
-
 export function createApp() {
   const app = express();
 
-  const middleware = helmet();
-  app.use(middleware);
+  app.use(helmet());
 
   app.use(
     cors({
