@@ -25,7 +25,8 @@ export interface NewMenuItemInput {
 
 export interface SiteSettings {
   tagline: string;
-  pricePerPoundLabel: string;
+  smallPlatePrice: string;
+  largePlatePrice: string;
   halalCertText: string;
   heroImageUrl: string | null;
   showReviewsWidget: boolean;

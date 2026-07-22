@@ -8,13 +8,18 @@ changes needed.
 
 | Item | Current placeholder | Where |
 |---|---|---|
-| Price per pound | `[PRICE]/lb` | Menu page — editable in /admin under "Price per pound label" |
 | Halal certifying body name | Generic "pending" text | Menu page — editable in /admin under "Halal certification text" |
 | Real photos | Self-hosted stock photos (`public/images/`) of a steam-table rice dish and a rice/skewer/fish spread, both halal-appropriate (no pork/alcohol) | Home hero + Menu page |
 | Social media handles | Not created — out of scope for this build | — |
 | Google Reviews widget (EmbedSocial/Elfsight) | Hidden by default (`SiteSettings.showReviewsWidget = false`) | Turn on in /admin once Blast supplies a widget embed; paste the embed code into `src/components/ReviewsWidget.tsx` |
 | GA4 | Not installed — needs Blast's Google account (cgaye6527@gmail.com) and a measurement ID | Set `VITE_GA_MEASUREMENT_ID` in `frontend/.env` once available (see `frontend/.env.example`) |
 | Logo | Live — real logo supplied, in use in header/footer/hero/favicon | See "Logo assets" below |
+
+## Pricing (resolved)
+
+Flat per-plate pricing, not by weight: small plate $10, large plate $15,
+any dish or combination of dishes. Stored in `SiteSettings.smallPlatePrice` /
+`largePlatePrice`, editable in /admin.
 
 ## Taglines (brief Section 5 — pick one for Blast)
 

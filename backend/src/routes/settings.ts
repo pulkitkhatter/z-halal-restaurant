@@ -8,7 +8,8 @@ const router = Router();
 
 const settingsSchema = z.object({
   tagline: z.string().min(1).optional(),
-  pricePerPoundLabel: z.string().min(1).optional(),
+  smallPlatePrice: z.string().min(1).optional(),
+  largePlatePrice: z.string().min(1).optional(),
   halalCertText: z.string().min(1).optional(),
   heroImageUrl: z.string().url().optional(),
   showReviewsWidget: z.boolean().optional(),

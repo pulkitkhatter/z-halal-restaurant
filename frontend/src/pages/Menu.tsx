@@ -37,7 +37,8 @@ export function Menu() {
   }, []);
 
   const grouped = groupByCategory(items);
-  const priceLabel = settings?.pricePerPoundLabel ?? "[PRICE]/lb";
+  const smallPlatePrice = settings?.smallPlatePrice ?? "$10";
+  const largePlatePrice = settings?.largePlatePrice ?? "$15";
   const halalCertText =
     settings?.halalCertText ??
     "Halal certification details pending — certifying body to be confirmed.";
@@ -46,7 +47,7 @@ export function Menu() {
     <div className="container section">
       <Seo
         title="Menu — Z Halal Restaurant | Halal Steam Table Bed-Stuy Brooklyn"
-        description="Daily-changing West African steam table buffet at Z Halal Restaurant — Senegalese rice dishes, stews, and sides, priced by the pound."
+        description="Daily-changing West African steam table buffet at Z Halal Restaurant — Senegalese rice dishes, stews, and sides. Small plate $10, large plate $15."
         path="/menu"
       />
 
@@ -57,9 +58,10 @@ export function Menu() {
         className="menu-hero-image"
       />
       <p>
-        Our steam table buffet changes daily — self-serve, weighed at the
-        register, priced {priceLabel}. Selection varies daily — come in to
-        see what's freshest.
+        Our steam table buffet changes daily — self-serve, any dish, any
+        combination. Small plate {smallPlatePrice}, large plate{" "}
+        {largePlatePrice}. Selection varies daily — come in to see what's
+        freshest.
       </p>
 
       {loading && <p>Loading menu…</p>}

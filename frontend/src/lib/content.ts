@@ -57,8 +57,8 @@ export const TRUST_BADGES = [
   },
   {
     icon: "⚖",
-    title: "Priced By The Pound",
-    text: "Serve yourself, pay only for what you take.",
+    title: "Small $10 / Large $15",
+    text: "Any dish, any combination — serve yourself, pick your plate size.",
   },
   {
     icon: "🕐",
@@ -85,7 +85,7 @@ export const HOW_IT_WORKS = [
   },
   {
     step: "3",
-    title: "Get weighed & pay by the pound",
-    description: "Your plate is weighed at the register — pay only for what you take.",
+    title: "Pick your plate size & pay",
+    description: "Small plate $10, large plate $15 — pay at the register.",
   },
 ];

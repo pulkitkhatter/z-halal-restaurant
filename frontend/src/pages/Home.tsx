@@ -38,7 +38,7 @@ export function Home() {
     <>
       <Seo
         title="Halal Restaurant Bed-Stuy Brooklyn | Z Halal Restaurant"
-        description="Z Halal Restaurant is a West African halal steam table buffet in Bed-Stuy, Brooklyn — fresh Senegalese dishes, priced by the pound, open 9am–1am daily."
+        description="Z Halal Restaurant is a West African halal steam table buffet in Bed-Stuy, Brooklyn — fresh Senegalese dishes, small plate $10 / large plate $15, open 9am–1am daily."
         path="/"
       />
 

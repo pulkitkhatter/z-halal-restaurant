@@ -137,11 +137,20 @@ export function AdminDashboard() {
               />
             </label>
             <label>
-              Price per pound label
+              Small plate price
               <input
-                value={settings.pricePerPoundLabel}
+                value={settings.smallPlatePrice}
                 onChange={(e) =>
-                  setSettings({ ...settings, pricePerPoundLabel: e.target.value })
+                  setSettings({ ...settings, smallPlatePrice: e.target.value })
+                }
+              />
+            </label>
+            <label>
+              Large plate price
+              <input
+                value={settings.largePlatePrice}
+                onChange={(e) =>
+                  setSettings({ ...settings, largePlatePrice: e.target.value })
                 }
               />
             </label>

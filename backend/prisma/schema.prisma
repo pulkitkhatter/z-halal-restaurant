@@ -39,7 +39,8 @@ model MenuItem {
 model SiteSettings {
   id                 Int      @id @default(1)
   tagline            String   @default("Authentic West African flavors, fresh daily.")
-  pricePerPoundLabel String   @default("[PRICE]/lb")
+  smallPlatePrice    String   @default("$10")
+  largePlatePrice    String   @default("$15")
   halalCertText      String   @default("Halal certification details pending — certifying body to be confirmed.")
   heroImageUrl       String?
   showReviewsWidget  Boolean  @default(false)
