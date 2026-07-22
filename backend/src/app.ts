@@ -1,3 +1,4 @@
+/// <reference path="./types/express.d.ts" />
 import compression from "compression";
 import cookieParser from "cookie-parser";
 import cors from "cors";
@@ -5,7 +6,6 @@ import express from "express";
 import * as helmetModule from "helmet";
 import morgan from "morgan";
 
-import "./types/express.js";
 import { errorHandler } from "./middleware/errorHandler.js";
 import authRouter from "./routes/auth.js";
 import menuRouter from "./routes/menu.js";
