@@ -2,8 +2,8 @@
 import compression from "compression";
 import cookieParser from "cookie-parser";
 import cors from "cors";
-import express from "express";
-import helmet from "helmet";
+import express, { type RequestHandler } from "express";
+import helmetDefault from "helmet";
 import morgan from "morgan";
 
 import { errorHandler } from "./middleware/errorHandler.js";
@@ -11,6 +11,12 @@ import authRouter from "./routes/auth.js";
 import menuRouter from "./routes/menu.js";
 import settingsRouter from "./routes/settings.js";
 import uploadRouter from "./routes/upload.js";
+
+// helmet's declared module shape resolves inconsistently across TS/npm
+// environments (works locally, fails as "not callable" on Vercel's build),
+// even though its default export is unambiguously a callable function at
+// runtime. Asserting through `unknown` sidesteps whichever shape TS infers.
+const helmet = helmetDefault as unknown as () => RequestHandler;
 
 export function createApp() {
   const app = express();
