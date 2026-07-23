@@ -1,7 +1,11 @@
 import { useEffect, useState } from "react";
 import { api, type Order } from "../../lib/api";
 
-export function OrdersPanel() {
+interface Props {
+  canDelete: boolean;
+}
+
+export function OrdersPanel({ canDelete }: Props) {
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -63,13 +67,15 @@ export function OrdersPanel() {
             <button type="button" className="btn btn-small" onClick={() => toggleCompleted(order)}>
               Mark as {order.completed ? "Pending" : "Completed"}
             </button>
-            <button
-              type="button"
-              className="btn btn-outline btn-small"
-              onClick={() => handleDelete(order)}
-            >
-              Delete
-            </button>
+            {canDelete && (
+              <button
+                type="button"
+                className="btn btn-outline btn-small"
+                onClick={() => handleDelete(order)}
+              >
+                Delete
+              </button>
+            )}
           </div>
         </div>
       ))}

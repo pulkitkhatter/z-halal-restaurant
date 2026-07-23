@@ -11,6 +11,7 @@ import authRouter from "./routes/auth.js";
 import menuRouter from "./routes/menu.js";
 import ordersRouter from "./routes/orders.js";
 import settingsRouter from "./routes/settings.js";
+import staffRouter from "./routes/staff.js";
 import uploadRouter from "./routes/upload.js";
 
 // helmet's declared module shape resolves inconsistently across TS/npm
@@ -44,6 +45,7 @@ export function createApp() {
   app.use("/api/menu", menuRouter);
   app.use("/api/orders", ordersRouter);
   app.use("/api/settings", settingsRouter);
+  app.use("/api/staff", staffRouter);
   app.use("/api/upload", uploadRouter);
 
   app.use(errorHandler);

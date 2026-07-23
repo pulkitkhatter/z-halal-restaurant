@@ -4,8 +4,9 @@ import { useAuth } from "../../context/AuthContext";
 import { api, type DietType, type MenuItem, type SiteSettings } from "../../lib/api";
 import { MenuItemEditor } from "./MenuItemEditor";
 import { OrdersPanel } from "./OrdersPanel";
+import { StaffPanel } from "./StaffPanel";
 
-type Tab = "menu" | "settings" | "orders";
+type Tab = "menu" | "settings" | "orders" | "staff";
 
 const emptyItem = {
   name: "",
@@ -17,8 +18,9 @@ const emptyItem = {
 };
 
 export function AdminDashboard() {
-  const { email, logout } = useAuth();
+  const { email, role, logout } = useAuth();
   const navigate = useNavigate();
+  const isAdmin = role === "ADMIN";
 
   const [items, setItems] = useState<MenuItem[]>([]);
   const [settings, setSettings] = useState<SiteSettings | null>(null);
@@ -32,7 +34,9 @@ export function AdminDashboard() {
     api.getSettings().then(setSettings);
   }
 
-  useEffect(loadData, []);
+  useEffect(() => {
+    if (isAdmin) loadData();
+  }, [isAdmin]);
 
   async function handleLogout() {
     await logout();
@@ -79,38 +83,54 @@ export function AdminDashboard() {
         </div>
       </div>
 
-      <div className="admin-tabs">
-        <button
-          type="button"
-          className={`admin-tab ${tab === "menu" ? "admin-tab-active" : ""}`}
-          onClick={() => setTab("menu")}
-        >
-          Menu Items
-        </button>
-        <button
-          type="button"
-          className={`admin-tab ${tab === "orders" ? "admin-tab-active" : ""}`}
-          onClick={() => setTab("orders")}
-        >
-          Orders
-        </button>
-        <button
-          type="button"
-          className={`admin-tab ${tab === "settings" ? "admin-tab-active" : ""}`}
-          onClick={() => setTab("settings")}
-        >
-          Site Settings
-        </button>
-      </div>
+      {isAdmin && (
+        <div className="admin-tabs">
+          <button
+            type="button"
+            className={`admin-tab ${tab === "menu" ? "admin-tab-active" : ""}`}
+            onClick={() => setTab("menu")}
+          >
+            Menu Items
+          </button>
+          <button
+            type="button"
+            className={`admin-tab ${tab === "orders" ? "admin-tab-active" : ""}`}
+            onClick={() => setTab("orders")}
+          >
+            Orders
+          </button>
+          <button
+            type="button"
+            className={`admin-tab ${tab === "settings" ? "admin-tab-active" : ""}`}
+            onClick={() => setTab("settings")}
+          >
+            Site Settings
+          </button>
+          <button
+            type="button"
+            className={`admin-tab ${tab === "staff" ? "admin-tab-active" : ""}`}
+            onClick={() => setTab("staff")}
+          >
+            Staff
+          </button>
+        </div>
+      )}
 
-      {tab === "orders" && (
+      {(!isAdmin || tab === "orders") && (
         <section>
           <h2>Orders</h2>
-          <OrdersPanel />
+          <OrdersPanel canDelete={isAdmin} />
         </section>
       )}
 
-      {tab === "menu" && (
+      {isAdmin && tab === "staff" && (
+        <section>
+          <h2>Staff</h2>
+          <StaffPanel />
+        </section>
+      )}
+
+      {isAdmin && tab === "menu" && (
         <section>
           <h2>Menu Items</h2>
           <p className="admin-hint">
@@ -162,7 +182,7 @@ export function AdminDashboard() {
         </section>
       )}
 
-      {tab === "settings" && settings && (
+      {isAdmin && tab === "settings" && settings && (
         <section>
           <h2>Site Settings</h2>
           <form onSubmit={handleSaveSettings} className="admin-settings-form">
