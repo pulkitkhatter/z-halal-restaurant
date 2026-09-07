@@ -391,7 +391,7 @@ a {
 /* Menu */
 .menu-hero-image {
   width: 100%;
-  max-height: 320px;
+  aspect-ratio: 294 / 220;
   object-fit: cover;
   border-radius: 10px;
   margin: 16px 0;
